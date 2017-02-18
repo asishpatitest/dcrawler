@@ -10,5 +10,5 @@ public interface IncomingURLsCache {
     void add(String key, String value);
 
     Set<String> fetchAll(String key);
-    
+
 }
