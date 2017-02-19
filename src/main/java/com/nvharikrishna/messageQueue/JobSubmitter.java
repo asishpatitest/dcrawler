@@ -16,22 +16,17 @@ public class JobSubmitter {
     private static final String TOPIC = "URL-QUEUE";
 
     public static void main(String args[]) {
-        String url = "/home.html";
-        Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-        props.put("acks", "1");
-//        props.put("retries", 0);
-//        props.put("batch.size", 16384);
-//        props.put("linger.ms", 1);
-//        props.put("buffer.memory", 33554432);
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        Producer<String, String> producer = new KafkaProducer<String, String>(props);
-        Future<RecordMetadata> metadataFuture =  producer.send(new ProducerRecord<String, String>(TOPIC, url, url));
-        System.out.println("is done = " + metadataFuture.isDone());
-        System.out.println(metadataFuture.toString());
-        System.out.println("Message sent successfully");
-        producer.close();
+        if(args.length > 0) {
+            String url = args[0];
+            Properties props = new Properties();
+            props.put("bootstrap.servers", "localhost:9092");
+            props.put("acks", "1");
+            props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            Producer<String, String> producer = new KafkaProducer<String, String>(props);
+            Future<RecordMetadata> metadataFuture =  producer.send(new ProducerRecord<String, String>(TOPIC, url));
+            producer.close();
+        }
     }
 
 }
