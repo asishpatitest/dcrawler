@@ -13,18 +13,13 @@ import java.util.concurrent.Future;
  */
 public class JobSubmitter {
 
-    private static final String TOPIC = "URL-QUEUE";
+    private static final String TOPIC = "URL_QUEUE";
 
     public static void main(String args[]) {
         if(args.length > 0) {
             String url = args[0];
-            Properties props = new Properties();
-            props.put("bootstrap.servers", "localhost:9092");
-            props.put("acks", "1");
-            props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-            props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-            Producer<String, String> producer = new KafkaProducer<String, String>(props);
-            Future<RecordMetadata> metadataFuture =  producer.send(new ProducerRecord<String, String>(TOPIC, url));
+            Producer<String, String> producer = KafkaUtils.initialiseProducer();
+            producer.send(new ProducerRecord<String, String>(TOPIC, url));
             producer.close();
         }
     }

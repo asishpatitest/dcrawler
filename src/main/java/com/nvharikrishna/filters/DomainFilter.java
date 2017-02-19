@@ -1,6 +1,10 @@
 package com.nvharikrishna.filters;
 
 import com.nvharikrishna.AppConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 /**
  * This class is for filtering URL which are not white listed.
@@ -8,6 +12,7 @@ import com.nvharikrishna.AppConfig;
  */
 public class DomainFilter implements Filter<String> {
 
+    private static final Logger logger = LoggerFactory.getLogger(DomainFilter.class);
     String[] allowedUrl = null;
 
     public DomainFilter(){
@@ -24,13 +29,19 @@ public class DomainFilter implements Filter<String> {
     public String doProcess(String message) {
 
         for(int index=0;index<allowedUrl.length;index++) {
-            //TODO: do below check only for hostname part of the URL.
-            if(!message.contains(allowedUrl[index])) {
+            try {
+                URI uri = new URI(message);
+                String domain = uri.getHost();
+                String url = domain.startsWith("www.") ? domain.substring(4) : domain;
+                if (url.contains(allowedUrl[index])) {
+                    return CONTINUE;
+                }
+            } catch(Exception e) {
+                logger.error("Exception for URL [" + message + "],", e);
                 return BREAK;
             }
         }
-        return CONTINUE;
-
+        return BREAK;
     }
 
 }
