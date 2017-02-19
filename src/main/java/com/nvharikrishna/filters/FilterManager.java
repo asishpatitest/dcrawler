@@ -30,11 +30,6 @@ public class FilterManager implements Filter<String> {
         filters.add(workerQueueSubmitFilter);
     }
 
-    public static void main(String[] args){
-        Filter<String> filter = new FilterManager();
-        filter.doProcess("/home-loan.html");
-    }
-
     public String doProcess(String message) {
         for(Filter<String> filter: filters){
             try {
