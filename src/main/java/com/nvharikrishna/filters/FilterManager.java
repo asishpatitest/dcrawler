@@ -18,11 +18,12 @@ public class FilterManager implements Filter<String> {
     public FilterManager(){
 
         WorkerQueueSubmitFilter workerQueueSubmitFilter = new WorkerQueueSubmitFilter();
-        CssFilter cssFilter = new CssFilter(); //first filter
+        MediaFilter mediaFilter = new MediaFilter(); //first filter
         DomainFilter domainFilter = new DomainFilter();
         CrawledFilter crawledFilter = new CrawledFilter();
         WaitingFilter waitingFilter = new WaitingFilter();
-        filters.add(cssFilter);
+
+        filters.add(mediaFilter);
         filters.add(domainFilter);
         filters.add(crawledFilter);
         filters.add(waitingFilter);
@@ -36,8 +37,9 @@ public class FilterManager implements Filter<String> {
 
                 if(Filter.BREAK.equals(status))
                     break;
+
             } catch (Exception e){
-                logger.error("Error while processing filters.", e);
+                logger.error("Error while processing URL [" + message + "] filters.", e);
             }
         }
 
