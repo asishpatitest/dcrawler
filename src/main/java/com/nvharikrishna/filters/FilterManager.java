@@ -19,14 +19,14 @@ public class FilterManager implements Filter<String> {
 
         WorkerQueueSubmitFilter workerQueueSubmitFilter = new WorkerQueueSubmitFilter();
         CssFilter cssFilter = new CssFilter(); //first filter
-
+        DomainFilter domainFilter = new DomainFilter();
+        CrawledFilter crawledFilter = new CrawledFilter();
+        WaitingFilter waitingFilter = new WaitingFilter();
         filters.add(cssFilter);
+        filters.add(domainFilter);
+        filters.add(crawledFilter);
+        filters.add(waitingFilter);
         filters.add(workerQueueSubmitFilter);
-    }
-
-    public static void main(String[] args){
-        Filter<String> filter = new FilterManager();
-        filter.doProcess("/home-loan.html");
     }
 
     public String doProcess(String message) {

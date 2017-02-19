@@ -7,7 +7,7 @@ import javax.swing.text.html.CSS;
  */
 public class CssFilter implements Filter<String> {
 
-    public String doProcess( String message) {
+    public String doProcess(String message) {
         if(message.endsWith(".css")){
             //don't do anything
             return BREAK;
