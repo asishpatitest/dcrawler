@@ -8,13 +8,11 @@ import com.nvharikrishna.cache.WaitingUrlsCacheImpl;
  * Created by abinash on 19/2/17.
  */
 public class WaitingFilter implements Filter<String>{
+    WaitingUrlsCache waitingUrlsCache = new WaitingUrlsCacheImpl();
 
     public String doProcess(String message) {
-        WaitingUrlsCache waitingUrlsCache = new WaitingUrlsCacheImpl();
-        if(waitingUrlsCache.find(message)) {
-            return BREAK;
-        }
-        return CONTINUE;
+
+        return waitingUrlsCache.find(message) ? BREAK : CONTINUE;
     }
 
 }
